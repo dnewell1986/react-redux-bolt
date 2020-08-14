@@ -1,9 +1,33 @@
-import React from "react";
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import * as courseActions from "../../redux/actions/courseActions";
 
-class CoursesPage extends React.Component {
-  render() {
-    return <h2>Courses</h2>;
-  }
-}
+const CoursesPage = () => {
+  const dispatch = useDispatch();
+  const [course, setCourse] = useState({ title: "" });
+  const courses = useSelector((state) => state.courses);
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    dispatch(courseActions.createCourse(course));
+  };
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <h2>Courses</h2>
+      <h3>Add Course</h3>
+      <input
+        type="text"
+        onChange={(event) => setCourse({ title: event.target.value })}
+        value={course.title}
+      />
+
+      <input type="submit" value="Save" />
+      {courses.map((course) => (
+        <div key={course.title}>{course.title}</div>
+      ))}
+    </form>
+  );
+};
 
 export default CoursesPage;
