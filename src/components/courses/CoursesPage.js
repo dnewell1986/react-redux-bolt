@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import * as courseActions from "../../redux/actions/courseActions";
 
@@ -6,6 +6,14 @@ const CoursesPage = () => {
   const dispatch = useDispatch();
   const [course, setCourse] = useState({ title: "" });
   const courses = useSelector((state) => state.courses);
+
+  useEffect(() => {
+    try {
+      dispatch(courseActions.loadCourses());
+    } catch (error) {
+      throw error;
+    }
+  }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
